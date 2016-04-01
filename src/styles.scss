@@ -1,0 +1,135 @@
+@import '../node_modules/node-reset-scss/scss/_reset.scss';
+
+body {
+  font-family: Geneva,Tahoma,Verdana,sans-serif;
+  background: url('http://subtlepatterns2015.subtlepatterns.netdna-cdn.com/patterns/fabric_1.png');
+}
+
+.container {
+  max-width: 880px;
+  margin: auto;
+}
+
+%h1 {
+  font-family: 'Big Caslon','Book Antiqua','Palatino Linotype',Georgia,serif;
+  font-size: 2.8em;
+  color: #fff;
+}
+
+%button {
+  display: inline-block;
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
+  color: #fff;
+  border: 1px solid #fff;
+  font-size: .8em;
+  padding: 8px;
+  border-radius: 1px;
+  text-decoration: none;
+}
+
+.masthead {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 330px;
+  text-align: center;
+  background-image: url('http://asset1.marksandspencer.com/is/image/mands/8a24ffae8d5a1136dbf6c097af751d097f827139?$editorial_880x330$');
+  background-position: right 0;
+  margin-bottom: 20px;
+
+  &__heading {
+    @extend %h1;
+    margin-bottom: 12px;
+  }
+
+  &__cta {
+    @extend %button;
+  }
+}
+
+$product-width: 245px;
+$product-padding-width: 20px;
+
+.product-list {
+  width: $product-width;
+  margin: auto;
+  padding: 0 $product-padding-width;
+}
+
+.product {
+  width: $product-width;
+  margin-bottom: $product-padding-width;
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+
+  &__image-container {
+    position: relative;
+    // Should be visible for touch device
+    // This is not good for accessibility
+    &:before {
+      transition: opacity 200ms;
+      content: 'Buy';
+      position: absolute;
+      right: 6px;
+      bottom: 6px;
+      padding: 6px 10px;
+      font-size: .6em;
+      text-transform: uppercase;
+      background-color: #55daa6;
+      text-align: center;
+      color: #fff;
+      opacity: 0;
+    }
+    height: 275px;
+    overflow: hidden;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  &:hover &__image-container:before {
+    opacity: 1;
+  }
+
+  &__image {
+    width: 100%;
+  }
+
+  &__meta {
+    padding: 20px;
+    background-color: #f7f7f7;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__heading {
+    margin-bottom: 4px;
+  }
+
+  &__category {
+    font-size: .75em;
+    color: #888;
+  }
+
+  &__price {
+    letter-spacing: -1px;
+    font-size: .9em;
+    font-weight: bold;
+    color: #55daa6;
+  }
+}
+
+@media (min-width: ($product-width * 2) + ($product-padding-width * 3)) {
+  .product-list {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: ($product-width * 2) + ($product-padding-width * 1);
+  }
+}
+
+@media (min-width: ($product-width * 3) + ($product-padding-width * 4)) {
+  .product-list {
+    width: ($product-width * 3) + ($product-padding-width * 2);
+  }
+}

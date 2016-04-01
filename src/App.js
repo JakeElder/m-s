@@ -6,17 +6,20 @@ import _ from 'lodash';
 const products = [{
   id: 'J01',
   description: 'Jeans',
-  imgSrc: "http://asset1.marksandspencer.com/is/image/mands/SD_01_T62_1700K_P6_X_EC_90?$PRODVIEWER_SUB$",
+  category: 'Womens jeans',
+  imgSrc: 'http://i.ngimg.com/resources/nastygal/images/products/processed/48513.0.detail.jpg',
   price: 32.95
 }, {
   id: 'B01',
   description: 'Blouse',
-  imgSrc: 'http://asset1.marksandspencer.com/is/image/mands/SD_01_T41_1424C_Z4_X_EC_90?$PRODVIEWER_SUB$',
+  category: 'Womans blouse',
+  imgSrc: 'https://cdn.lulus.com/images/product/xlarge/1185586_184890.jpg',
   price: 24.95
 }, {
   id: 'S01',
   description: 'Socks',
-  imgSrc: 'http://asset1.marksandspencer.com/is/image/mands/SD_02_T60_5650_T4_X_EC_1?$PRODVIEWER_SUB$',
+  category: 'Some socks',
+  imgSrc: 'http://cdn.lulus.com/images/product/xlarge/1677792_268722.jpg',
   price: 7.95
 }];
 
@@ -90,19 +93,36 @@ export function getTotal(state) {
 
 const store = createStore(basket);
 
+class MastHead extends Component {
+  render() {
+    return (
+      <header className="masthead">
+        <h1 className="masthead__heading">Milestone Collection</h1>
+        <a className="masthead__cta" href="#">Shop Now</a>
+      </header>
+    )
+  }
+}
+
 class Product extends Component {
   render() {
     return (
-      <div>
-        <img src={this.props.imgSrc} />
-        <span>£{this.props.price}</span>
-        <button onClick={() => {
-          store.dispatch({
-            type: 'ADD_PRODUCT',
-            id: this.props.id
-          });
-        }}>Add</button>
-      </div>
+      <li className="product" onClick={() => {
+          store.dispatch({ type: 'ADD_PRODUCT', id: this.props.id });
+          }}>
+        <div className="product__image-container">
+          <img className="product__image" src={this.props.imgSrc} />
+        </div>
+        <div className="product__meta">
+            <div className="product__copy-container">
+            <h3 className="product__heading">{this.props.description}</h3>
+            <span className="product__category">{this.props.category}</span>
+          </div>
+          <div className="product__price-container">
+            <span className="product__price">£{this.props.price}</span>
+          </div>
+        </div>
+      </li>
     );
   }
 }
@@ -131,15 +151,15 @@ class Basket extends Component {
         </tbody>
         <tfoot>
           <tr>
-            <td colSpan='2'>Discount:</td>
+            <td colSpan="2">Discount:</td>
             <td>£{getDiscount(state).toFixed(2)}</td>
           </tr>
           <tr>
-            <td colSpan='2'>Delivery:</td>
+            <td colSpan="2">Delivery:</td>
             <td>£{getDelivery(state).toFixed(2)}</td>
           </tr>
           <tr>
-            <td colSpan='2'>Total:</td>
+            <td colSpan="2">Total:</td>
             <td>£{getTotal(state).toFixed(2)}</td>
           </tr>
         </tfoot>
@@ -156,14 +176,11 @@ export default class App extends Component {
 
   render() {
     return (
-      <div>
-        <table>
-          <tbody>
-            <tr>
-              {products.map(product => (<td key={product.id}><Product {...product} /></td>))}
-            </tr>
-           </tbody>
-        </table>
+      <div className="container">
+        <MastHead />
+        <ol className="product-list">
+          {products.map(product => <Product {...product} />)}
+        </ol>
         <Basket items={store.getState()} />
       </div>
     );
